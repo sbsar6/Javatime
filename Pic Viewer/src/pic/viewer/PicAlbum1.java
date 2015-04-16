@@ -110,7 +110,7 @@ public class PicAlbum1 extends JFrame implements TreeSelectionListener {
               
         textTag = new JTextField(10);
         buttonPanel.add(textTag);
-        getTag = new JButton ("Add picture tags");
+        getTag = new JButton ("Add Album tags");
         getTag.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent event) {
         addTag();
@@ -118,13 +118,35 @@ public class PicAlbum1 extends JFrame implements TreeSelectionListener {
     });
         buttonPanel.add(getTag);
         
-        JButton ChangeTag = new JButton("Change Tag");
+        JButton ChangeTag = new JButton("Change Album Tag");
         ChangeTag.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent event) {
         changeTag();
       }
     });
         buttonPanel.add(ChangeTag);
+        
+        JButton DeleteAlbum = new JButton("Delete Album");
+        DeleteAlbum.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent event) {
+        deleteAlbum();
+      }
+
+             private void deleteAlbum() {
+                 DefaultMutableTreeNode selectedNode = getSelectedNode();
+                 if (selectedNode != null){
+                     model.removeNodeFromParent(selectedNode);
+                     saveTree();
+                 }
+                 else{
+                     JOptionPane.showMessageDialog(PicAlbum1.this, "Please select an album to delete first","Error", JOptionPane.INFORMATION_MESSAGE);
+            return;
+                 }
+                 
+             }
+    });
+        buttonPanel.add(DeleteAlbum);
+        
        // buttonPanel.setf
         this.add(buttonPanel, BorderLayout.SOUTH);
         this.setVisible(true);
@@ -291,12 +313,18 @@ private DefaultMutableTreeNode getTagTree (){
           //tag1 = makeShow(tag.getType(), rootNode);   
          //  pic = makeShow(tag.getValue(), tag1); 
           this.model.insertNodeInto(new DefaultMutableTreeNode(new Tag(getTagName,fileLocation, fname)), getTagTree, getTagTree.getChildCount());
+          TreePath path = find(rootNode,getTagName);
+          tree.setSelectionPath(path);
+          tree.scrollPathToVisible(path);
           }
          else{
                 TreePath path = find(rootNode,getTagName);
                 DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode)path.getLastPathComponent();
              this.model.insertNodeInto(new DefaultMutableTreeNode(new Tag(getTagName,fileLocation, fname)), treeNode, treeNode.getChildCount());
              System.out.println(find(rootNode,getTagName));
+             tree.setSelectionPath(path);
+             tree.scrollPathToVisible(path);
+             
          }
          
          
@@ -331,10 +359,12 @@ Then iterate over treePaths and invoke removeSelectionPath to deselect the nodes
  
                
 // 
-     
+            saveTree();
            this.validate();
           this.repaint();
-       
+     }
+    }
+    public void saveTree(){
           try
      {
        FileOutputStream fos = new FileOutputStream("MyObject");
@@ -345,8 +375,7 @@ Then iterate over treePaths and invoke removeSelectionPath to deselect the nodes
      {
       }
         
-    }
-    }
+}
    private DefaultMutableTreeNode getSelectedNode(){
        return (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
        
