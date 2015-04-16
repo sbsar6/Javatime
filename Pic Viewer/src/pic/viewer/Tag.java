@@ -9,11 +9,12 @@ package pic.viewer;
  *
  * @author Andrew
  */
-public class Tag {
+public class Tag implements java.io.Serializable{
     
 	private static final long serialVersionUID = 3223704828835351425L;
-	private String tagType;	
-	private String value;
+	private String tagName;
+        private String fileLocation;
+        private String fileName;
 
 	
 	
@@ -21,10 +22,12 @@ public class Tag {
 	 * Creates a new tag given a type of tag and the value for it.
 	 * @param type - a type of a tag, such as Location, People, etc.
 	 * @param value - the value of the tag, such as New York, or John
+     * @param name
 	 */
-	public Tag(String type, String value) {
-		this.tagType = type;
-		this.value = value;
+	public Tag(String tagName, String fileLocation, String fileName ) {
+		this.tagName = tagName;
+		this.fileLocation = fileLocation;
+                this.fileName = fileName;
 	}
 	
 	
@@ -32,34 +35,52 @@ public class Tag {
 	/**
 	 * returns the Tag type.
 	 * 
+     * @return 
 	 */
-	public String getType(){
-		return tagType;
+	public String toString(){
+            return fileName;
+        }
+        
+        public String getTagName(){
+		return tagName;
 	}
 	
 	
 	/**
 	 * returns the Tag value.
 	 * 
+     * @return 
 	 */
-	public String getValue(){
-		return value;
+	public String getFileLocation(){
+		return fileLocation;
 	}
 	
+        // returns tag Name
+        public String getFileName(){
+                return fileName;    
+        }
 	
 	/* set methods */
 	/**
 	 * set the tag's type to the given string t.
+     * @param t
 	 */
-	public void setType(String t){
-		this.tagType = t;
+	public void setTagName(String t){
+		this.tagName = t;
 	}
 	
 	
 	/**
 	 * set the tag's value to the given string s.
+     * @param s
 	 */
-	public void setValue(String s){
-		this.value = s;
+	
+        public void setFileLocation(String s){
+		this.fileLocation = s;
 	}
+        
+        public void setFileName(String n){
+                this.fileName = n;
+        }
+        
 }
