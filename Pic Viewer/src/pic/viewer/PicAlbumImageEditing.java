@@ -26,9 +26,8 @@ import javax.swing.tree.TreeSelectionModel;
  *
  * @author Andrew
  */
-public class PicAlbum1 extends JFrame implements TreeSelectionListener {
+public class PicAlbumImageEditing extends JFrame implements TreeSelectionListener {
     
-    BufferedImage bimg;
     Image img;
     Image iconImage;
     JButton getPictureButton;
@@ -45,16 +44,16 @@ public class PicAlbum1 extends JFrame implements TreeSelectionListener {
     private HashMap tagList; 
     private DefaultMutableTreeNode tag1, pic;
     private JPanel panel2;
-    private PicturePanel picPanel;
+    
     
     public static void main (String [] args){
 
-        new PicAlbum1();
+        new PicAlbumImageEditing();
        
     }
     
     
-    public PicAlbum1 (){
+    public PicAlbumImageEditing (){
    
          try{
              System.out.println("Exists");
@@ -94,7 +93,7 @@ public class PicAlbum1 extends JFrame implements TreeSelectionListener {
           //this.validate();
           // this.repaint();
         
-       JPanel picPanel = new PicturePanel();
+        JPanel picPanel = new PicturePanel();
         this.add(picPanel, BorderLayout.CENTER);
         
         JToolBar editMenu = new JToolBar();
@@ -105,41 +104,8 @@ public class PicAlbum1 extends JFrame implements TreeSelectionListener {
       }
 
              private void flipImage() {
-     
-       DefaultMutableTreeNode node = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
-       if (node == null) return;
-      if (node.isLeaf()){
-          //addIcon();
-             Object nodeInfo = node.getUserObject();
-            Tag f = (Tag) node.getUserObject();
-           System.out.println(f.getFileLocation());
-            nodeString = f.getFileLocation().toString();       
-            
-        // Load the img  
-       bimg = ImageUtil.loadImage(file);  
-        frame.setBounds(0, 0, loadImg.getWidth(), loadImg.getHeight());  
-        // Set the panel visible and add it to the frame  
-        frame.setVisible(true);  
-        // Get the surfaces Graphics object  
-        Graphics2D g = (Graphics2D)frame.getRootPane().getGraphics();  
-        // Now draw the image  
-        g.drawImage(loadImg, null, 0, 0);  
-          
-    }  
-            
-            Toolkit kit = Toolkit.getDefaultToolkit();
-        
-           img = kit.getImage(nodeString);
-          img.getWidth();
-        int w = img.getWidth();  
-        int h = img.getHeight();  
-        BufferedImage dimg = new BufferedImage(w, h, img.getType());  
-        Graphics2D g = dimg.createGraphics();  
-        g.drawImage(img, 0, 0, w, h, w, 0, 0, h, null);  
-        g.dispose();  
-        return dimg;   
-        this.repaint();
-    }  
+                 throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+             }
              
     });
         
@@ -186,7 +152,7 @@ public class PicAlbum1 extends JFrame implements TreeSelectionListener {
                      saveTree();
                  }
                  else{
-                     JOptionPane.showMessageDialog(PicAlbum1.this, "Please select an album to delete first","Error", JOptionPane.INFORMATION_MESSAGE);
+                     JOptionPane.showMessageDialog(PicAlbumImageEditing.this, "Please select an album to delete first","Error", JOptionPane.INFORMATION_MESSAGE);
             return;
                  }
                  
@@ -199,29 +165,71 @@ public class PicAlbum1 extends JFrame implements TreeSelectionListener {
         this.setVisible(true);
         
     }
-      public static BufferedImage loadImage(String ref) {  
-        BufferedImage bimg = null;  
-        try {  
-  
-            bimg = ImageIO.read(new File(ref));  
-        } catch (Exception e) {  
-            e.printStackTrace();  
-        }  
-        return bimg;  
-    }  
-        
-        
+
     public final void getPictureButtonClick(){
-     
+       BufferedImage bimg;
          String file = getImageFile();
         if (file != null){
-           
-           bimg = loadImage(file);
-           bimg.getScaledInstance(500, -1, Image.SCALE_SMOOTH);
-            this.repaint();
-            
-        }
+  
+            try {
+           bimg = ImageIO.read(new File("C:\\Users\\sbsar6\\Desktop\\Java-master\\NetBeansProjects\\MiPics\\src\\mipics\\bld.jpg"));
+       } catch (IOException e) {
+       }
+    JFrame f = new JFrame("Load Image Sample");
+   f.add(bimg);
+    this.add(f);
+          
+    //   picPanel.add(img); 
     }
+    }
+
+    /**
+     *
+     */
+  
+
+ 
+      public class LoadImageApp extends Component {
+           
+    BufferedImage bimg;
+ 
+    public void paint(Graphics g) {
+        g.drawImage(bimg, 0, 0, null);
+    }
+ 
+    public LoadImageApp() {
+       try {
+           bimg = ImageIO.read(new File("C:\\Users\\sbsar6\\Desktop\\Java-master\\NetBeansProjects\\MiPics\\src\\mipics\\bld.jpg"));
+       } catch (IOException e) {
+       }
+ 
+    }
+ 
+    public Dimension getPreferredSize() {
+        if (bimg == null) {
+             return new Dimension(100,100);
+        } else {
+           return new Dimension(bimg.getWidth(null), bimg.getHeight(null));
+       }
+    }
+ 
+    public void launch() {
+ 
+        JFrame f = new JFrame("Load Image Sample");
+             
+        f.addWindowListener(new WindowAdapter(){
+                public void windowClosing(WindowEvent e) {
+                    System.exit(0);
+                }
+            });
+ 
+        f.add(new LoadImageApp());
+        f.pack();
+        f.setVisible(true);
+    }
+}      
+        
+    
     public String getImageFile(){
         
 
@@ -325,7 +333,7 @@ private DefaultMutableTreeNode getTagTree (){
     public void addTag() {
         if (file == null)
         {
-            JOptionPane.showMessageDialog(PicAlbum1.this, "Please open a photo to tag first","Error", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(PicAlbumImageEditing.this, "Please open a photo to tag first","Error", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
         DefaultMutableTreeNode parent = getSelectedNode();
@@ -349,7 +357,7 @@ private DefaultMutableTreeNode getTagTree (){
          
          if (getTagName.length() ==0)
         {
-            JOptionPane.showMessageDialog(PicAlbum1.this, "Please enter a Tag","Error", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(PicAlbumImageEditing.this, "Please enter a Tag","Error", JOptionPane.INFORMATION_MESSAGE);
             
         }
     else
@@ -456,9 +464,9 @@ Then iterate over treePaths and invoke removeSelectionPath to deselect the nodes
    private void changeTag(){
        DefaultMutableTreeNode selectedNode = getSelectedNode();
        if (selectedNode == null){
-           JOptionPane.showMessageDialog(PicAlbum1.this, "Select a Tag to Change", "Error", JOptionPane.ERROR_MESSAGE);
+           JOptionPane.showMessageDialog(PicAlbumImageEditing.this, "Select a Tag to Change", "Error", JOptionPane.ERROR_MESSAGE);
        }
-       else { String newName = JOptionPane.showInputDialog(PicAlbum1.this, "Enter a new tag name");
+       else { String newName = JOptionPane.showInputDialog(PicAlbumImageEditing.this, "Enter a new tag name");
        // Insert code to replace selectedNode with newName
        }
    }
