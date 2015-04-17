@@ -73,7 +73,7 @@ public class MiAlbum extends JFrame implements TreeSelectionListener {
          }
          
         
-        this.setSize(800,600);
+        this.setSize(900,800);
         this.setTitle("Mi Pics");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
        

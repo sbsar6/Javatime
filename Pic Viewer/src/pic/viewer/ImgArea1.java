@@ -21,7 +21,7 @@ import javax.imageio.stream.*;
 ////start the ImgArea class
 //The ImgArea class acts as a drawing area of the Image Editor program
 
-class ImgArea extends Canvas{ 
+class ImgArea1 extends Canvas{ 
 
   Image orImg;
   BufferedImage orBufferedImage;
@@ -51,7 +51,7 @@ class ImgArea extends Canvas{
   String fontName;
   int fontSize;
   String textToDraw;
-  public ImgArea(){
+  public ImgArea1(){
 
    addMouseListener(new Mousexy()); //hanlding mouse event of Canvas class
    addKeyListener(new KList()); //handling key event of the Canvas
@@ -414,7 +414,7 @@ class ImgArea extends Canvas{
 
 class  Main extends JFrame implements ActionListener{
  
- ImgArea ia;
+ ImgArea1 ia;
  JFileChooser chooser; 
  JMenuBar mainmenu;
  JMenu menu;
@@ -432,7 +432,7 @@ class  Main extends JFrame implements ActionListener{
  JMenuItem mcancel;
  String filename;
  Main(){
-  ia=new ImgArea();
+  ia=new ImgArea1();
   Container cont=getContentPane();
   cont.add(ia,BorderLayout.CENTER );  
   mainmenu=new JMenuBar();
@@ -735,12 +735,12 @@ class  Main extends JFrame implements ActionListener{
     {
      
     ImageBrightness ib=new ImageBrightness(); 
-    if(ImgArea.imageLoaded)
+    if(ImgArea1.imageLoaded)
      ib.enableSlider(true); 
      }
   else if(source.getText().compareTo("Image compression")==0)
     {
-    if(ImgArea.imageLoaded){
+    if(ImgArea1.imageLoaded){
      ia.setActionCompressed(true);
      enableSaving(true);
      } 
@@ -750,25 +750,25 @@ class  Main extends JFrame implements ActionListener{
     {
      
     ImageResize ir=new ImageResize();
-    if(ImgArea.imageLoaded)
+    if(ImgArea1.imageLoaded)
      ir.enableComponents(true);  
      }
   else if(source.getText().compareTo("Image rotation")==0)
     {
      
-    if(ImgArea.imageLoaded){
+    if(ImgArea1.imageLoaded){
      ia.rotateImage();
      enableSaving(true);
      } 
     }
   
   else if(source.getText().compareTo("Image transparency")==0){
-   if(ImgArea.c==null){
+   if(ImgArea1.c==null){
     JOptionPane dialog=new JOptionPane();
     dialog.showMessageDialog(this,"Click the background area of the image first","Error",JOptionPane.ERROR_MESSAGE);
    }
-   else if(ImgArea.imageLoaded){
-    ia.makeTransparency(ImgArea.c);
+   else if(ImgArea1.imageLoaded){
+    ia.makeTransparency(ImgArea1.c);
     enableSaving(true);
     }
   } 

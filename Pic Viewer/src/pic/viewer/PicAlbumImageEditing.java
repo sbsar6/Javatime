@@ -167,7 +167,7 @@ public class PicAlbumImageEditing extends JFrame implements TreeSelectionListene
     }
 
     public final void getPictureButtonClick(){
-       BufferedImage bimg;
+       BufferedImage bimg = new BufferedImage(bimg.getWidth(), bimg.getHeight(), BufferedImage.TYPE_INT_RGB);
          String file = getImageFile();
         if (file != null){
   
