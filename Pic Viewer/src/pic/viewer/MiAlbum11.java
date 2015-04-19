@@ -14,8 +14,6 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 import javax.imageio.ImageIO;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -23,13 +21,13 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
-import static pic.viewer.ImgArea.imageLoaded;
+import pic.viewer.Main.ImageResize.KeyList;
 //import org.apache.commons.io.FilenameUtils;
 /**
  *
  * @author Andrew
  */
-public class MiAlbum1 extends JFrame implements TreeSelectionListener {
+public class MiAlbum11 extends JFrame implements TreeSelectionListener {
     
     Image img;
     Image iconImage;
@@ -47,60 +45,16 @@ public class MiAlbum1 extends JFrame implements TreeSelectionListener {
     private HashMap tagList; 
     private DefaultMutableTreeNode tag1, pic;
     private JPanel panel2;
-     ImgArea ia;
-    //image editing components
-    Image orImg;
-  BufferedImage orBufferedImage;
-  BufferedImage bimg; 
-  BufferedImage bimg1; 
-  float e;
-  float radian;
-  Dimension ds;
-  int mX;
-  int mY;
-  int x;
-  int y;
-  static boolean imageLoaded;
-  boolean actionSlided;
-  boolean actionResized;
-  boolean actionCompressed;
-  boolean actionTransparent;
-  boolean actionRotated;
-  boolean actionDraw;
-  boolean drawn;
-  MediaTracker mt;
-  static Color c;
-  Color colorTextDraw;
-  Robot rb;
-  boolean dirHor;
-  String imgFileName;
-  String fontName;
-  int fontSize;
-  String textToDraw;
-    JMenuBar mainmenu;
- JMenu menu;
- JMenu editmenu;
- JMenuItem mopen;
- JMenuItem msaveas;
- JMenuItem msave;
- JMenuItem mexit; 
- JMenuItem mbright; 
- JMenuItem mcompress; 
- JMenuItem mresize;
- JMenuItem mrotate;
- JMenuItem mtransparent;
- JMenuItem maddtext;
- JMenuItem mcancel;
- 
- 
+    
+    
     public static void main (String [] args){
 
-        new MiAlbum1();
+        new MiAlbum11();
        
     }
     
     
-    public MiAlbum1 (){
+    public MiAlbum11 (){
    
          try{
              System.out.println("Exists");
@@ -120,88 +74,14 @@ public class MiAlbum1 extends JFrame implements TreeSelectionListener {
          }
          
         
-    
-         mainmenu=new JMenuBar();
-  menu=new JMenu("File");
-  menu.setMnemonic(KeyEvent.VK_F);
-
-  mopen=new JMenuItem("Open...");
-  mopen.setMnemonic(KeyEvent.VK_O);
- // mopen.addActionListener(this);
-
-  msaveas=new JMenuItem("Save as...");
-  msaveas.setMnemonic(KeyEvent.VK_S);
-//  msaveas.addActionListener(this);
-
-  msave=new JMenuItem("Save");
-  msave.setMnemonic(KeyEvent.VK_V);
- // msave.addActionListener(this);  
-
-  mexit=new JMenuItem("Exit");
-  mexit.setMnemonic(KeyEvent.VK_X);
-//  mexit.addActionListener(this);
-  menu.add(mopen);
-  menu.add(msaveas);
-  menu.add(msave);
-  menu.add(mexit);  
-
-  editmenu=new JMenu("Edit");
-  editmenu.setMnemonic(KeyEvent.VK_E);
-  mbright=new JMenuItem("Image brightness");
-  mbright.setMnemonic(KeyEvent.VK_B);
- // mbright.addActionListener(this);
-
-  maddtext=new JMenuItem("Add text on image");
-  maddtext.setMnemonic(KeyEvent.VK_A);
- // maddtext.addActionListener(this);  
-
-  mresize=new JMenuItem("Image resize");
-  mresize.setMnemonic(KeyEvent.VK_R);
-//  mresize.addActionListener(this);
- 
-  mcompress=new JMenuItem("Image compression");
-  mcompress.setMnemonic(KeyEvent.VK_P);
- // mcompress.addActionListener(this);
-
-  mrotate=new JMenuItem("Image rotation");
-  mrotate.setMnemonic(KeyEvent.VK_T);
- // mrotate.addActionListener(this);
-
-  mtransparent=new JMenuItem("Image transparency");
-  mtransparent.setMnemonic(KeyEvent.VK_T);
- // mtransparent.addActionListener(this);
- 
-  mcancel=new JMenuItem("Cancel editing");
-  mcancel.setMnemonic(KeyEvent.VK_L);
- // mcancel.addActionListener(this);
-
-  editmenu.add(maddtext);
-  editmenu.add(mbright);
-  editmenu.add(mcompress);
-  editmenu.add(mresize);
-  editmenu.add(mrotate);
-  editmenu.add(mtransparent);
-  editmenu.add(mcancel);
-
-  mainmenu.add(menu);
-  mainmenu.add(editmenu);
-  setJMenuBar(mainmenu);
- 
-  ia=new ImgArea();
-          JPanel picPanel = new PicturePanel();
-        this.add(picPanel, BorderLayout.CENTER);
+        this.setSize(900,800);
+        this.setTitle("Mi Pics");
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
        
-
-         setSize(800,600); 
-         picPanel.add(ia,BorderLayout.CENTER );  
-        setTitle("Mi Pics");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      //   setExtendedState(this.getExtendedState() | this.MAXIMIZED_BOTH);
-     setVisible(true); 
         
        
-       tree = new JTree(model);
-   
+       
+        tree = new JTree(model);
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         tree.addTreeSelectionListener(this);
         JScrollPane scroll = new JScrollPane(tree);
@@ -214,21 +94,22 @@ public class MiAlbum1 extends JFrame implements TreeSelectionListener {
           //this.validate();
           // this.repaint();
         
-       
+        JPanel picPanel = new PicturePanel();
+        this.add(picPanel, BorderLayout.CENTER);
         
         JToolBar editMenu = new JToolBar();
-        flipButton = new JButton ("Brighten");
+        flipButton = new JButton ("Flip");
         flipButton.addActionListener(new ActionListener() {        
        public void actionPerformed(ActionEvent event) {
         flipImage();
       }
 
              private void flipImage() {
-                new ImageBrightness();   }  
+                 throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+             }  
     });
-         JToolBar buttonPanel = new JToolBar();
-         buttonPanel.add(flipButton);
-       
+        
+        JToolBar buttonPanel = new JToolBar();
         getPictureButton = new JButton ("Open Picture");
         getPictureButton.setBackground(Color.DARK_GRAY);
         getPictureButton.setForeground(Color.WHITE);
@@ -271,7 +152,7 @@ public class MiAlbum1 extends JFrame implements TreeSelectionListener {
                      saveTree();
                  }
                  else{
-                     JOptionPane.showMessageDialog(MiAlbum1.this, "Please select an album to delete first","Error", JOptionPane.INFORMATION_MESSAGE);
+                     JOptionPane.showMessageDialog(MiAlbum11.this, "Please select an album to delete first","Error", JOptionPane.INFORMATION_MESSAGE);
             return;
                  }
                  
@@ -288,9 +169,13 @@ public class MiAlbum1 extends JFrame implements TreeSelectionListener {
     public final void getPictureButtonClick(){
      
          String file = getImageFile();
-        getImage(file);
+        if (file != null){
+            Toolkit kit = Toolkit.getDefaultToolkit();
+            img = kit.getImage(file);
+            img = img.getScaledInstance(500, -1, Image.SCALE_SMOOTH);
+            this.repaint();
             
-        
+        }
     }
     public String getImageFile(){
         
@@ -314,65 +199,6 @@ public class MiAlbum1 extends JFrame implements TreeSelectionListener {
             return null;
         
     }
-        public void getImage(String s){
-        if (s != null){
-            Toolkit kit = Toolkit.getDefaultToolkit();
-            img = kit.getImage(s);
-            img = img.getScaledInstance(500, -1, Image.SCALE_SMOOTH);
-            this.repaint();
-        
-    }
-    }
-    
-        public BufferedImage createBufferedImageFromImage(Image image, int width, int height, boolean tran)
-   { BufferedImage dest ;
-  if(tran) 
-       dest = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-  else
-   dest = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-       Graphics2D g2 = dest.createGraphics();
-       g2.drawImage(image, 0, 0, null);
-       g2.dispose();
-       return dest;
-   }
-    public void prepareImage(String filename){
-   initialize();
-   try{
-   //track the image loading
-   mt=new MediaTracker(this);    
-   orImg=Toolkit.getDefaultToolkit().getImage(filename); 
-   mt.addImage(orImg,0);
-    mt.waitForID(0); 
-   //get the image width and height  
-   int width=orImg.getWidth(null);
-   int height=orImg.getHeight(null);
-   //create buffered image from the image so any change to the image can be made
-   orBufferedImage=createBufferedImageFromImage(orImg,width,height,false);
-   //create the blank buffered image
-   //the update image data is stored in the buffered image   
-   bimg = new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);  
-   imageLoaded=true; //now the image is loaded
-   }catch(Exception e){System.exit(-1);}
-  }     
-   
-    
- //initialize variables
-  public void initialize(){
-   imageLoaded=false; 
-   actionSlided=false;
-   actionResized=false;
-   actionCompressed=false;
-   actionTransparent=false;
-   actionRotated=false;
-   actionDraw=false;
-   drawn=false;
-   dirHor=false;
-   c=null;
-   radian=0.0f;
-   e=0.0f;
-   }   
-    
-    
   public void valueChanged(TreeSelectionEvent e) {
     DefaultMutableTreeNode node = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
 
@@ -385,7 +211,13 @@ public class MiAlbum1 extends JFrame implements TreeSelectionListener {
             Tag f = (Tag) node.getUserObject();
            System.out.println(f.getFileLocation());
             this.nodeString = f.getFileLocation().toString();
-            getImage(nodeString);
+    if (nodeString != null){
+            Toolkit kit = Toolkit.getDefaultToolkit();
+            img = kit.getImage(nodeString);
+            img = img.getScaledInstance(500, -1, Image.SCALE_SMOOTH);
+            this.repaint();
+        }
+        // addIcon();
     }
   }
 
@@ -448,7 +280,7 @@ private DefaultMutableTreeNode getTagTree (){
     public void addTag() {
         if (file == null)
         {
-            JOptionPane.showMessageDialog(MiAlbum1.this, "Please open a photo to tag first","Error", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(MiAlbum11.this, "Please open a photo to tag first","Error", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
         DefaultMutableTreeNode parent = getSelectedNode();
@@ -472,7 +304,7 @@ private DefaultMutableTreeNode getTagTree (){
          
          if (getTagName.length() ==0)
         {
-            JOptionPane.showMessageDialog(MiAlbum1.this, "Please enter a Tag","Error", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(MiAlbum11.this, "Please enter a Tag","Error", JOptionPane.INFORMATION_MESSAGE);
             
         }
     else
@@ -579,60 +411,71 @@ Then iterate over treePaths and invoke removeSelectionPath to deselect the nodes
    private void changeTag(){
        DefaultMutableTreeNode selectedNode = getSelectedNode();
        if (selectedNode == null){
-           JOptionPane.showMessageDialog(MiAlbum1.this, "Select a Tag to Change", "Error", JOptionPane.ERROR_MESSAGE);
+           JOptionPane.showMessageDialog(MiAlbum11.this, "Select a Tag to Change", "Error", JOptionPane.ERROR_MESSAGE);
        }
-       else { String newName = JOptionPane.showInputDialog(MiAlbum1.this, "Enter a new tag name");
+       else { String newName = JOptionPane.showInputDialog(MiAlbum11.this, "Enter a new tag name");
        // Insert code to replace selectedNode with newName
        }
    }
-   
-   
-   ////start the ImageBrightness class
- //The ImageBrightness class represents the interface to allow the user to make the image 
- //brighter or darker by changing the value of the image slider
- //The ImageBrightness class is in the Main class
- public class ImageBrightness extends JFrame implements ChangeListener{
-  JSlider slider;
- 
-  ImageBrightness(){
-  addWindowListener(new WindowAdapter(){
-     public void windowClosing(WindowEvent e){
-      dispose();
-      
-     }
-    });
-  Container cont=getContentPane();  
-  slider=new JSlider(-10,10,0); 
-  slider.setEnabled(false);
-  slider.addChangeListener(this);
-  cont.add(slider,BorderLayout.CENTER); 
-  slider.setEnabled(true);
-  setTitle("Image brightness");
-  setPreferredSize(new Dimension(300,100));
+
+public static BufferedImage resize(BufferedImage img, int newW, int newH) {  
+        int w = img.getWidth();  
+        int h = img.getHeight();  
+        BufferedImage dimg = dimg = new BufferedImage(newW, newH, img.getType());  
+        Graphics2D g = dimg.createGraphics();  
+        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);  
+        g.drawImage(img, 0, 0, newW, newH, 0, 0, w, h, null);  
+        g.dispose();  
+        return dimg;  
+    }  
+
+public class ImageResize extends JFrame implements ActionListener {
+  JPanel panel;
+  JTextField txtWidth;
+  JTextField txtHeight;
+  JButton btOK;
+  ImageResize(){
+  setTitle("Image resize");
+  //setDefaultCloseOperation(EXIT_ON_CLOSE);
+  setPreferredSize(new Dimension(400,100));
+  
+  btOK=new JButton("OK");
+  btOK.setBackground(Color.BLACK);
+  btOK.setForeground(Color.BLUE);  
+  btOK.addActionListener(this);
+
+  txtWidth=new JTextField(4);
+ // txtWidth.addKeyListener(new KeyList());
+  txtHeight=new JTextField(4);
+ // txtHeight.addKeyListener(new KeyList());
+  panel=new JPanel();
+  panel.setLayout(new FlowLayout());
+  panel.add(new JLabel("Width:"));
+  panel.add(txtWidth);
+  panel.add(new JLabel("Height:"));
+  
+  panel.add(txtHeight);
+  panel.add(btOK);
+  panel.setBackground(Color.GRAY);
+  add(panel, BorderLayout.CENTER);
   setVisible(true);
   pack();
-  enableSlider(false);
+  enableComponents(false);
   }
-  public void enableSlider(boolean enabled){
-   slider.setEnabled(enabled);
+  //This method can be invoked to  enable the text boxes of image width and height
+  public void enableComponents(boolean enabled){
+   txtWidth.setEnabled(enabled);
+   txtHeight.setEnabled(enabled);
+   btOK.setEnabled(enabled);
   }
-  public void stateChanged(ChangeEvent e){
-    ia.setValue(slider.getValue()/10.0f);
-    ia.setActionSlided(true);   
-    ia.filterImage();
-    ia.repaint();
-    enableSaving(true);
+  //This method works when you click the OK button to resize the image
+  public void actionPerformed(ActionEvent e){
+   if(e.getSource()==btOK){
+     resize();
    
+   
+    this.repaint();
+    }
   }
 
- } ////end of the ImageBrightness class
-   
-    public void setValue(float value){ 
-   e=value;
-  } 
-    public void enableSaving(boolean f){
- // msaveas.setEnabled(f);
- // msave.setEnabled(f); 
-  
-  }
 }
