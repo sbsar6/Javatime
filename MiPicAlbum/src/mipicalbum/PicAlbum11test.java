@@ -45,13 +45,14 @@ public class PicAlbum11test extends JFrame implements TreeSelectionListener {
     private HashMap tagList; 
     private DefaultMutableTreeNode tag1, pic;
     private JPanel panel2;
-    private PicturePanel picPanel;
+    private JPanel picPanel;
     
     public static void main (String [] args){
 
         new PicAlbum11test();
        
     }
+    private Object g;
     
     
     public PicAlbum11test (){
@@ -94,7 +95,7 @@ public class PicAlbum11test extends JFrame implements TreeSelectionListener {
           //this.validate();
           // this.repaint();
         
-       JPanel picPanel = new PicturePanel();
+       JPanel picPanel = new JPanel();
         this.add(picPanel, BorderLayout.CENTER);
         
         JToolBar editMenu = new JToolBar();
@@ -185,14 +186,22 @@ public class PicAlbum11test extends JFrame implements TreeSelectionListener {
      
          String file = getImageFile();
         if (file != null){
-           
-           bimg = loadImage(file);
-            Graphics2D g = (Graphics2D)this.getRootPane().getGraphics();  
-        // Now draw the image  
-        g.drawImage(bimg, null, 0, 0);  
-           //bimg.getScaledInstance(500, -1, Image.SCALE_SMOOTH);
-            this.repaint();
-            
+             //   bimg = loadImage(file);
+             //    Graphics2D g = (Graphics2D)this.getRootPane().getGraphics();
+             // Now draw the image
+             //bimg.getScaledInstance(500, -1, Image.SCALE_SMOOTH);
+             //   g.drawImage(bimg, null,50, 0);
+             //  this.repaint();
+             LoadImage loadImage = new LoadImage();
+             /* Image orImg = Toolkit.getDefaultToolkit().getImage(file);
+             g.drawImage(img, 0, 0, width, height, 0, 0, imageWidth, imageHeight, null);
+             int width=orImg.getWidth(null);
+             System.out.println(width);
+             int height=orImg.getHeight(null);
+             System.out.println(height);
+             BufferedImage orBufferedImage = createBufferedImageFromImage(orImg,width,height,false);
+             bimg = new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
+              */
         }
     }
     
@@ -206,6 +215,57 @@ public class PicAlbum11test extends JFrame implements TreeSelectionListener {
         return dimg;  
         
     }  
+    public class LoadImage  {
+ 
+     private BufferedImage img;
+ 
+     public void init() {
+         try {
+             
+             img = ImageIO.read(file);
+         } catch (IOException e) {
+         }
+     }
+ 
+     public void paint(Graphics g) {
+       g.drawImage(img, 50, 50, null);
+     }BufferedImage img;
+ 
+    public void paint(Graphics g) {
+        g.drawImage(img, 0, 0, null);
+    }
+ 
+    public LoadImageApp() {
+       try {
+           img = ImageIO.read(new File("strawberry.jpg"));
+       } catch (IOException e) {
+       }
+ 
+    }
+ 
+    public Dimension getPreferredSize() {
+        if (img == null) {
+             return new Dimension(100,100);
+        } else {
+           return new Dimension(img.getWidth(null), img.getHeight(null));
+       }
+    }
+ 
+    public static void main(String[] args) {
+ 
+        JFrame f = new JFrame("Load Image Sample");
+             
+        f.addWindowListener(new WindowAdapter(){
+                public void windowClosing(WindowEvent e) {
+                    System.exit(0);
+                }
+            });
+ 
+        f.add(new LoadImageApp());
+        f.pack();
+        f.setVisible(true);
+    }
+}
     public String getImageFile(){
         
 
@@ -288,7 +348,7 @@ private DefaultMutableTreeNode getTagTree (){
             if (nodeString != null){
             Toolkit kit = Toolkit.getDefaultToolkit();
             img = kit.getImage(nodeString);
-            img = img.getScaledInstance(300, -1, Image.SCALE_SMOOTH);
+            img = img.getScaledInstance(500, -1, Image.SCALE_SMOOTH);
             this.repaint();
         }
     }
