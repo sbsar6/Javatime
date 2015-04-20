@@ -24,12 +24,13 @@ import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
 
+
 //import org.apache.commons.io.FilenameUtils;
 /**
  *
  * @author Andrew
  */
-public class MostRecentAlbum extends JFrame implements TreeSelectionListener {
+public class MostRecentframeissues extends JFrame implements TreeSelectionListener {
     
     Image img;
     Image iconImage;
@@ -47,7 +48,7 @@ public class MostRecentAlbum extends JFrame implements TreeSelectionListener {
     private HashMap tagList; 
     private DefaultMutableTreeNode tag1, pic;
     private JPanel panel2;
-  
+   private String fileString;
     //image editing components
     Image orImg;
   BufferedImage orBufferedImage;
@@ -59,16 +60,16 @@ public class MostRecentAlbum extends JFrame implements TreeSelectionListener {
     private JMenu menuFile, menuEdit;
     private JMenuItem menuFileOpen, menuFileSaveAs, menuFileExit, menuEditAddAlbum, 
             menuEditAddTag, MenuEditDeleteAlbum, MenuEditChangeTag;
- JSlider slider;
+    private JSlider slider;
  
     public static void main (String [] args){
 
-        new MostRecentAlbum();
+        new MostRecentframeissues();
        
     }
     
     
-    public MostRecentAlbum (){
+    public MostRecentframeissues (){
    
          try{
              System.out.println("Exists");
@@ -88,91 +89,74 @@ public class MostRecentAlbum extends JFrame implements TreeSelectionListener {
          }
          
         
-    
+      setSize(800,600);
+  setTitle("Mi Pics");
+  topPanel = new JPanel();
+  topPanel.setLayout( new BorderLayout() );
+  add( topPanel );
+   //Create the menu bar
          menuBar=new JMenuBar();
+
+//Set this instance as the application's menu bar
+        setJMenuBar(menuBar);
   menuFile=new JMenu("File");
   menuFile.setMnemonic(KeyEvent.VK_F);
   menuBar.add(menuFile);
   menuFileOpen = new JMenuItem ( "Open...", new ImageIcon ("OPEN.gif"));
   menuFileOpen.setMnemonic(KeyEvent.VK_O);   
   menuFileOpen.setToolTipText("Open a new file");
-  
-  
-  mopen=new JMenuItem("Open...");
-  mopen.setMnemonic(KeyEvent.VK_O);
- mopen.addActionListener(new ActionListener() {        
+  menuFileOpen.addActionListener(new ActionListener() {        
        public void actionPerformed(ActionEvent event) {
         getPictureButtonClick();
       }
     });
-
-  msaveas=new JMenuItem("Save as...");
-  msaveas.setMnemonic(KeyEvent.VK_S);
+       
+        
+        
+        
+  menuFileSaveAs=new JMenuItem("Save as...", new ImageIcon ("SAVE.gif"));
+  menuFileSaveAs.setMnemonic(KeyEvent.VK_S);
 //  msaveas.addActionListener(this);
+menuFileSaveAs.setToolTipText("Save photo in new location or format");
 
-  msave=new JMenuItem("Save");
-  msave.setMnemonic(KeyEvent.VK_V);
- // msave.addActionListener(this);  
-
-  mexit=new JMenuItem("Exit");
-  mexit.setMnemonic(KeyEvent.VK_X);
+  menuFileExit=new JMenuItem("Exit");
+  menuFileExit.setMnemonic(KeyEvent.VK_X);
 //  mexit.addActionListener(this);
-  menu.add(mopen);
-  menu.add(msaveas);
-  menu.add(msave);
-  menu.add(mexit);  
-
-  editmenu=new JMenu("Edit");
-  editmenu.setMnemonic(KeyEvent.VK_E);
-  mbright=new JMenuItem("Image brightness");
-  mbright.setMnemonic(KeyEvent.VK_B);
+ menuFileExit.setToolTipText("Quit program");
+  menuFile.add(menuFileOpen);
+  menuFile.add(menuFileSaveAs);
+  menuFile.add(menuFileExit);
+ 
+  menuEdit = new JMenu("Edit");
+  menuEdit.setMnemonic(KeyEvent.VK_E);
+  menuBar.add(menuEdit);
+            
+   menuEditAddAlbum = new JMenuItem("Create Album");
+   menuEditAddAlbum.setMnemonic(KeyEvent.VK_A);
  // mbright.addActionListener(this);
+   menuEditAddAlbum.setToolTipText("Add Photo to Album");
 
-  maddtext=new JMenuItem("Add text on image");
-  maddtext.setMnemonic(KeyEvent.VK_A);
- // maddtext.addActionListener(this);  
-
-  mresize=new JMenuItem("Image resize");
-  mresize.setMnemonic(KeyEvent.VK_R);
-//  mresize.addActionListener(this);
- 
-  mcompress=new JMenuItem("Image compression");
-  mcompress.setMnemonic(KeyEvent.VK_P);
- // mcompress.addActionListener(this);
-
-  mrotate=new JMenuItem("Image rotation");
-  mrotate.setMnemonic(KeyEvent.VK_T);
- // mrotate.addActionListener(this);
-
-  mtransparent=new JMenuItem("Image transparency");
-  mtransparent.setMnemonic(KeyEvent.VK_T);
- // mtransparent.addActionListener(this);
- 
-  mcancel=new JMenuItem("Cancel editing");
-  mcancel.setMnemonic(KeyEvent.VK_L);
- // mcancel.addActionListener(this);
-
-  editmenu.add(maddtext);
-  editmenu.add(mbright);
-  editmenu.add(mcompress);
-  editmenu.add(mresize);
-  editmenu.add(mrotate);
-  editmenu.add(mtransparent);
-  editmenu.add(mcancel);
-
-  mainmenu.add(menu);
-  mainmenu.add(editmenu);
-  setJMenuBar(mainmenu);
   
- 
-           topPanel = new JPanel;
+  MenuEditDeleteAlbum=new JMenuItem("Delete Album");
+ MenuEditDeleteAlbum.setMnemonic(KeyEvent.VK_D);
+//  mresize.addActionListener(this);
+ MenuEditDeleteAlbum.setToolTipText("Delete Selected Album");
+  
+ MenuEditChangeTag=new JMenuItem("Rename Photo Tag");
+   MenuEditChangeTag.setMnemonic(KeyEvent.VK_R);
+ // mcompress.addActionListener(this);
+ MenuEditChangeTag.setToolTipText("Change name of photo tag in album");
+  
+  menuEdit.add(menuEditAddAlbum);
+   menuEdit.add(MenuEditDeleteAlbum);
+  menuEdit.add(MenuEditChangeTag);
+
+           
           JPanel picPanel = new PicturePanel();
         this.add(picPanel, BorderLayout.CENTER);
        
 
-         setSize(800,600); 
-       
-        setTitle("Mi Pics");
+         
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       //   setExtendedState(this.getExtendedState() | this.MAXIMIZED_BOTH);
      setVisible(true); 
@@ -194,8 +178,8 @@ public class MostRecentAlbum extends JFrame implements TreeSelectionListener {
           //this.validate();
           // this.repaint();
        JToolBar editMenu = new JToolBar();  
-       JLabel sizer = new JLabel("Re-size image");
-       editmenu.add(sizer);
+       JLabel sizer = new JLabel("Re-sizer");
+       editMenu.add(sizer);
       slider = new JSlider(0, 200);
       slider.setMajorTickSpacing(20);
       slider.setPaintTicks(true);
@@ -219,7 +203,8 @@ public class MostRecentAlbum extends JFrame implements TreeSelectionListener {
          JToolBar buttonPanel = new JToolBar();
          buttonPanel.add(flipButton);
        
-        getPictureButton = new JButton ("Open Picture");
+        getPictureButton = new JButton("Open Picture"); 
+        getPictureButton.setToolTipText("Select Picture to Open");
         getPictureButton.setBackground(Color.DARK_GRAY);
         getPictureButton.setForeground(Color.WHITE);
       
@@ -261,7 +246,7 @@ public class MostRecentAlbum extends JFrame implements TreeSelectionListener {
                      saveTree();
                  }
                  else{
-                     JOptionPane.showMessageDialog(MostRecentAlbum.this, "Please select an album to delete first","Error", JOptionPane.INFORMATION_MESSAGE);
+                     JOptionPane.showMessageDialog(MostRecentframeissues.this, "Please select an album to delete first","Error", JOptionPane.INFORMATION_MESSAGE);
             return;
                  }
                  
@@ -296,9 +281,9 @@ public class MostRecentAlbum extends JFrame implements TreeSelectionListener {
         int result = fc.showOpenDialog(null);
         
         if (result == JFileChooser.APPROVE_OPTION){
-            this.file = fc.getSelectedFile();
-            System.out.println(file);
-            return file.getPath();
+            file = fc.getSelectedFile();
+            fileString = file.getPath();
+            return fileString;
         }
         else
             return null;
@@ -318,23 +303,39 @@ public class MostRecentAlbum extends JFrame implements TreeSelectionListener {
   
    class SliderListener implements ChangeListener {
     public void stateChanged(ChangeEvent e) {
+        
+          
+    DefaultMutableTreeNode node = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
+    if (fileString == null){
+    if (node.isLeaf()){
+          //addIcon();
+             Object nodeInfo = node.getUserObject();
+            Tag f = (Tag) node.getUserObject();
+           System.out.println(f.getFileLocation());
+            fileString = f.getFileLocation();
+           
+    }}
+      
+          
+         
+        
         JSlider source = (JSlider)e.getSource();
         if (!source.getValueIsAdjusting()) {
             double fps = (int)source.getValue();
             System.out.println(fps);
             double ratio = fps/100;
             System.out.println(ratio);
-            double newSize = ratio * 500;
+            double newSize = ratio * 500;  
             Toolkit kit = Toolkit.getDefaultToolkit();
-            img = kit.getImage(file.toString());
+            img = kit.getImage(fileString);
             img = img.getScaledInstance((int) newSize, -1, Image.SCALE_SMOOTH);
             validate();
             repaint();
-         
-        }    
+        }   
+    
     }
 }
-    
+   
 
     
   public void valueChanged(TreeSelectionEvent e) {
@@ -400,7 +401,7 @@ private DefaultMutableTreeNode getTagTree (){
     public void addTag() {
         if (file == null)
         {
-            JOptionPane.showMessageDialog(MostRecentAlbum.this, "Please open a photo to tag first","Error", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(MostRecentframeissues.this, "Please open a photo to tag first","Error", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
         DefaultMutableTreeNode parent = getSelectedNode();
@@ -420,7 +421,7 @@ private DefaultMutableTreeNode getTagTree (){
   
          if (getTagName.length() ==0)
         {
-            JOptionPane.showMessageDialog(MostRecentAlbum.this, "Please enter a Tag","Error", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(MostRecentframeissues.this, "Please enter a Tag","Error", JOptionPane.INFORMATION_MESSAGE);
             
         }
     else
@@ -502,12 +503,12 @@ private DefaultMutableTreeNode getTagTree (){
    private void changeTag(){
        DefaultMutableTreeNode node = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
        if (node == null){
-           JOptionPane.showMessageDialog(MostRecentAlbum.this, "Select a Photo name to Change", "Error", JOptionPane.ERROR_MESSAGE);
+           JOptionPane.showMessageDialog(MostRecentframeissues.this, "Select a Photo name to Change", "Error", JOptionPane.ERROR_MESSAGE);
        }
        else {  
            
            if (node.isLeaf()){
-               String newName = JOptionPane.showInputDialog(MostRecentAlbum.this, "Enter a new tag name");
+               String newName = JOptionPane.showInputDialog(MostRecentframeissues.this, "Enter a new tag name");
        
        // Insert code to replace selectedNode with newName
            System.out.println(newName);
@@ -518,12 +519,11 @@ private DefaultMutableTreeNode getTagTree (){
        model.reload();
        saveTree();
            }
-           else{JOptionPane.showMessageDialog(MostRecentAlbum.this, "Select the picture name to change", "Error", JOptionPane.ERROR_MESSAGE);
+           else{JOptionPane.showMessageDialog(MostRecentframeissues.this, "Select the picture name to change", "Error", JOptionPane.ERROR_MESSAGE);
        
        }
    }
    }
    
-
 
 }
