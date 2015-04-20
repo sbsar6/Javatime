@@ -187,13 +187,13 @@ public class MiAlbum1 extends JFrame implements TreeSelectionListener {
   mainmenu.add(editmenu);
   setJMenuBar(mainmenu);
  
-  ia=new ImgArea();
+           
           JPanel picPanel = new PicturePanel();
         this.add(picPanel, BorderLayout.CENTER);
        
 
          setSize(800,600); 
-         picPanel.add(ia,BorderLayout.CENTER );  
+        
         setTitle("Mi Pics");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       //   setExtendedState(this.getExtendedState() | this.MAXIMIZED_BOTH);
@@ -224,7 +224,7 @@ public class MiAlbum1 extends JFrame implements TreeSelectionListener {
       }
 
              private void flipImage() {
-                new ImageBrightness();   }  
+                addIcon();   }  
     });
          JToolBar buttonPanel = new JToolBar();
          buttonPanel.add(flipButton);
@@ -568,11 +568,11 @@ Then iterate over treePaths and invoke removeSelectionPath to deselect the nodes
             img = img.getScaledInstance(50, -1, Image.SCALE_SMOOTH);
             this.repaint();
        
-       ImageIcon picIcon = new ImageIcon(this.nodeString);
+       ImageIcon picIcon = new ImageIcon(iconImg);
        
        JLabel pIcon = new JLabel(picIcon);
        panel3.add(pIcon);
-       this.add(panel3, BorderLayout.EAST);
+       this.add(panel3, BorderLayout.CENTER) ;
        this.validate();
        this.repaint();
    }
@@ -587,52 +587,6 @@ Then iterate over treePaths and invoke removeSelectionPath to deselect the nodes
    }
    
    
-   ////start the ImageBrightness class
- //The ImageBrightness class represents the interface to allow the user to make the image 
- //brighter or darker by changing the value of the image slider
- //The ImageBrightness class is in the Main class
- public class ImageBrightness extends JFrame implements ChangeListener{
-  JSlider slider;
- 
-  ImageBrightness(){
-  addWindowListener(new WindowAdapter(){
-     public void windowClosing(WindowEvent e){
-      dispose();
-      
-     }
-    });
-  Container cont=getContentPane();  
-  slider=new JSlider(-10,10,0); 
-  slider.setEnabled(false);
-  slider.addChangeListener(this);
-  cont.add(slider,BorderLayout.CENTER); 
-  slider.setEnabled(true);
-  setTitle("Image brightness");
-  setPreferredSize(new Dimension(300,100));
-  setVisible(true);
-  pack();
-  enableSlider(false);
-  }
-  public void enableSlider(boolean enabled){
-   slider.setEnabled(enabled);
-  }
-  public void stateChanged(ChangeEvent e){
-    ia.setValue(slider.getValue()/10.0f);
-    ia.setActionSlided(true);   
-    ia.filterImage();
-    ia.repaint();
-    enableSaving(true);
-   
-  }
 
- } ////end of the ImageBrightness class
-   
-    public void setValue(float value){ 
-   e=value;
-  } 
-    public void enableSaving(boolean f){
- // msaveas.setEnabled(f);
- // msave.setEnabled(f); 
-  
-  }
+
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pic.viewer;
+package mipicalbum1;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -21,13 +21,12 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
-import pic.viewer.Main.ImageResize.KeyList;
 //import org.apache.commons.io.FilenameUtils;
 /**
  *
  * @author Andrew
  */
-public class MiAlbum11 extends JFrame implements TreeSelectionListener {
+public class MiAlbum extends JFrame implements TreeSelectionListener {
     
     Image img;
     Image iconImage;
@@ -45,16 +44,28 @@ public class MiAlbum11 extends JFrame implements TreeSelectionListener {
     private HashMap tagList; 
     private DefaultMutableTreeNode tag1, pic;
     private JPanel panel2;
-    private picview picv;
+    JMenu menu;
+ JMenu editmenu;
+ JMenuItem mopen;
+ JMenuItem msaveas;
+ JMenuItem msave;
+ JMenuItem mexit; 
+ JMenuItem mbright; 
+ JMenuItem mcompress; 
+ JMenuItem mresize;
+ JMenuItem mrotate;
+ JMenuItem mtransparent;
+ JMenuItem maddtext;
+ JMenuItem mcancel;
     
     public static void main (String [] args){
 
-        new MiAlbum11();
+        new MiAlbum();
        
     }
     
     
-    public MiAlbum11 (){
+    public MiAlbum (){
    
          try{
              System.out.println("Exists");
@@ -73,7 +84,68 @@ public class MiAlbum11 extends JFrame implements TreeSelectionListener {
              model = new DefaultTreeModel(tagNode);  
          }
          
-        
+        JMenuBar mainmenu = new JMenuBar();
+  menu=new JMenu("File");
+  menu.setMnemonic(KeyEvent.VK_F);
+
+  mopen=new JMenuItem("Open...");
+  mopen.setMnemonic(KeyEvent.VK_O);
+ // mopen.addActionListener(this);
+
+  msaveas=new JMenuItem("Save as...");
+  msaveas.setMnemonic(KeyEvent.VK_S);
+//  msaveas.addActionListener(this);
+
+  msave=new JMenuItem("Save");
+  msave.setMnemonic(KeyEvent.VK_V);
+ // msave.addActionListener(this);  
+
+  mexit=new JMenuItem("Exit");
+  mexit.setMnemonic(KeyEvent.VK_X);
+//  mexit.addActionListener(this);
+  menu.add(mopen);
+  menu.add(msaveas);
+  menu.add(msave);
+  menu.add(mexit);  
+
+  editmenu=new JMenu("Edit");
+  editmenu.setMnemonic(KeyEvent.VK_E);
+  mbright=new JMenuItem("Image brightness");
+  mbright.setMnemonic(KeyEvent.VK_B);
+ // mbright.addActionListener(this);
+
+  maddtext=new JMenuItem("Add text on image");
+  maddtext.setMnemonic(KeyEvent.VK_A);
+ // maddtext.addActionListener(this);  
+
+  mresize=new JMenuItem("Image resize");
+  mresize.setMnemonic(KeyEvent.VK_R);
+//  mresize.addActionListener(this);
+ 
+
+  mrotate=new JMenuItem("Image rotation");
+  mrotate.setMnemonic(KeyEvent.VK_T);
+ // mrotate.addActionListener(this);
+
+  mtransparent=new JMenuItem("Image transparency");
+  mtransparent.setMnemonic(KeyEvent.VK_T);
+ // mtransparent.addActionListener(this);
+ 
+  mcancel=new JMenuItem("Cancel editing");
+  mcancel.setMnemonic(KeyEvent.VK_L);
+ // mcancel.addActionListener(this);
+
+  editmenu.add(maddtext);
+  editmenu.add(mbright);
+  editmenu.add(mcompress);
+  editmenu.add(mresize);
+  editmenu.add(mrotate);
+  editmenu.add(mtransparent);
+  editmenu.add(mcancel);
+
+  mainmenu.add(menu);
+  mainmenu.add(editmenu);
+  setJMenuBar(mainmenu);
         this.setSize(900,800);
         this.setTitle("Mi Pics");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -152,7 +224,7 @@ public class MiAlbum11 extends JFrame implements TreeSelectionListener {
                      saveTree();
                  }
                  else{
-                     JOptionPane.showMessageDialog(MiAlbum11.this, "Please select an album to delete first","Error", JOptionPane.INFORMATION_MESSAGE);
+                     JOptionPane.showMessageDialog(MiAlbum.this, "Please select an album to delete first","Error", JOptionPane.INFORMATION_MESSAGE);
             return;
                  }
                  
@@ -169,8 +241,7 @@ public class MiAlbum11 extends JFrame implements TreeSelectionListener {
     public final void getPictureButtonClick(){
      
          String file = getImageFile();
-      
-         if (file != null){
+        if (file != null){
             Toolkit kit = Toolkit.getDefaultToolkit();
             img = kit.getImage(file);
             img = img.getScaledInstance(500, -1, Image.SCALE_SMOOTH);
@@ -221,8 +292,6 @@ public class MiAlbum11 extends JFrame implements TreeSelectionListener {
         // addIcon();
     }
   }
-
-
 
      private class PicturePanel extends JPanel{
          public void paint(Graphics g){
@@ -283,7 +352,7 @@ private DefaultMutableTreeNode getTagTree (){
     public void addTag() {
         if (file == null)
         {
-            JOptionPane.showMessageDialog(MiAlbum11.this, "Please open a photo to tag first","Error", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(MiAlbum.this, "Please open a photo to tag first","Error", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
         DefaultMutableTreeNode parent = getSelectedNode();
@@ -307,7 +376,7 @@ private DefaultMutableTreeNode getTagTree (){
          
          if (getTagName.length() ==0)
         {
-            JOptionPane.showMessageDialog(MiAlbum11.this, "Please enter a Tag","Error", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(MiAlbum.this, "Please enter a Tag","Error", JOptionPane.INFORMATION_MESSAGE);
             
         }
     else
@@ -414,42 +483,10 @@ Then iterate over treePaths and invoke removeSelectionPath to deselect the nodes
    private void changeTag(){
        DefaultMutableTreeNode selectedNode = getSelectedNode();
        if (selectedNode == null){
-           JOptionPane.showMessageDialog(MiAlbum11.this, "Select a Tag to Change", "Error", JOptionPane.ERROR_MESSAGE);
+           JOptionPane.showMessageDialog(MiAlbum.this, "Select a Tag to Change", "Error", JOptionPane.ERROR_MESSAGE);
        }
-       else { String newName = JOptionPane.showInputDialog(MiAlbum11.this, "Enter a new tag name");
+       else { String newName = JOptionPane.showInputDialog(MiAlbum.this, "Enter a new tag name");
        // Insert code to replace selectedNode with newName
        }
    }
-
-public static BufferedImage resize(BufferedImage img, int newW, int newH) {  
-        int w = img.getWidth();  
-        int h = img.getHeight();  
-        BufferedImage dimg = dimg = new BufferedImage(newW, newH, img.getType());  
-        Graphics2D g = dimg.createGraphics();  
-        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);  
-        g.drawImage(img, 0, 0, newW, newH, 0, 0, w, h, null);  
-        g.dispose();  
-        return dimg;  
-    }  
-public class picview extends JPanel{
-
-    private BufferedImage img;
-
-    public picview() {
-       try {                
-          img = ImageIO.read((File)file);
-       } catch (IOException ex) {
-            // handle exception...
-       }
-    }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.drawImage(img, 0, 0, null); // see javadoc for more info on the parameters            
-    }
-
-}
-
-
 }

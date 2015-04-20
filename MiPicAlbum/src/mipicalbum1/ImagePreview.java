@@ -1,4 +1,4 @@
-package mipicalbum;
+package mipicalbum1;
 
 import javax.swing.*;
 import javax.swing.filechooser.*;

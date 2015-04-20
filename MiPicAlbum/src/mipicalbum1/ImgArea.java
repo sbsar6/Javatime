@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package mipicalbum;
+package mipicalbum1;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
