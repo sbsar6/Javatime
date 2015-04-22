@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package mipics;
+package pic.viewer;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -369,7 +369,7 @@ public class MiPics extends JFrame implements TreeSelectionListener {
         }   
     
     }
-}
+    }
    
 
     
@@ -524,7 +524,7 @@ private DefaultMutableTreeNode getTagTree (){
        panel3.removeAll();
        JLabel panLab = new JLabel("Album Thumbnails");
         panLab.setForeground(Color.white);
-        panel3.add(panLab);    
+        panel3.add(panLab);  
        selectedNode.getChildCount();
          System.out.println(selectedNode.getChildCount());
          ArrayList<String> nodeVals = new ArrayList<String>();
@@ -553,7 +553,7 @@ private DefaultMutableTreeNode getTagTree (){
           JLabel pIcon = new JLabel(picIcon);
             button.add(pIcon);
             this.panel3.add(pIcon);
-             panel3.revalidate();
+            panel3.revalidate();
             panel3.repaint();
          } 
                }     
