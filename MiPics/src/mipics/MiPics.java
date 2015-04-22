@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -28,26 +27,23 @@ import javax.swing.tree.TreeSelectionModel;
 //import org.apache.commons.io.FilenameUtils;
 /**
  *
- * @author Andrew
+ * @author 016171682
  */
 public class MiPics extends JFrame implements TreeSelectionListener {
     
     Image img;
     Image iconImage;
     private JButton getPictureButton, getTag, flipButton, deleteAlbum, renameAlbum;
-    private JLabel showName;
     private String nodeString;
     private JTextField textTag; 
     private JTree tree;
     private DefaultTreeModel model;
     private DefaultMutableTreeNode rootNode;
-    
     private File file;
-    
     private DefaultMutableTreeNode tag1, pic;
     private JPanel panel2;
     private JToolBar panel3;
-   private JPanel picPanel;
+    private JPanel picPanel;
     private String fileString;
     //image editing components
      private Image orImg;

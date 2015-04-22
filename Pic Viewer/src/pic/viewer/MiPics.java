@@ -435,7 +435,8 @@ private DefaultMutableTreeNode getTagTree (){
             return;
         }
         
-        String getTagName = JOptionPane.showInputDialog(MiPics.this, "Enter a new album name");
+        String getTagName = null;
+        getTagName = JOptionPane.showInputDialog(MiPics.this, "Enter a new album name");
         
         //get just name of file without filepath
         String fname = file.getName();
@@ -447,7 +448,7 @@ private DefaultMutableTreeNode getTagTree (){
          String fileLocation = file.toString();
       
   
-         if (getTagName.length() ==0)
+         if (getTagName == null)
         {
             JOptionPane.showMessageDialog(MiPics.this, "Please enter a Tag","Error", JOptionPane.INFORMATION_MESSAGE);
             
