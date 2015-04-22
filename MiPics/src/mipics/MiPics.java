@@ -30,15 +30,13 @@ import javax.swing.tree.TreeSelectionModel;
  */
 public class MiPics extends JFrame implements TreeSelectionListener {
     
-    private Image img, iconImage;
+    private Image img;
     private JButton getPictureButton, getTag, iconButton, deleteAlbum, renameAlbum, changeTag;
-    private String nodeString;
-    private JTextField textTag; 
+    private String nodeString; 
     private JTree tree;
     private DefaultTreeModel model;
     private DefaultMutableTreeNode rootNode;
     private File file;
-    private DefaultMutableTreeNode tag1, pic;
     private JPanel panel2;
     private JToolBar panel3, buttonPanel;
     private JPanel picPanel;
@@ -324,16 +322,11 @@ public class MiPics extends JFrame implements TreeSelectionListener {
     public void stateChanged(ChangeEvent e) {       
         DefaultMutableTreeNode node = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
         // make sure picture is selected
-        if (fileString == null){
-            //make sure a picture not an album
-            if (node.isLeaf()){      
-                   Object nodeInfo = node.getUserObject();
-                   Tag f = (Tag) node.getUserObject();
-                   System.out.println(f.getFileLocation());
-                   fileString = f.getFileLocation();
-        }
-            }
-           
+        if (node.isLeaf()){      
+            Object nodeInfo = node.getUserObject();
+            Tag f = (Tag) node.getUserObject();
+            fileString = f.getFileLocation();
+        }    
         //Get slider selection   
         JSlider source = (JSlider)e.getSource();
         //make sure photo is open first
@@ -344,9 +337,7 @@ public class MiPics extends JFrame implements TreeSelectionListener {
         //make sure slider had stopped moving
         if (!source.getValueIsAdjusting()) {
             double fps = (int)source.getValue();
-            System.out.println(fps);
             double ratio = fps/100;
-            System.out.println(ratio);
             double newSize = ratio * 500;  
             Toolkit kit = Toolkit.getDefaultToolkit();
             img = kit.getImage(fileString);
@@ -356,7 +347,6 @@ public class MiPics extends JFrame implements TreeSelectionListener {
         }   
     }
 }
-   
 
   //Add listener to record changes in tree selections  
     public void valueChanged(TreeSelectionEvent e) {
