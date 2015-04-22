@@ -1,5 +1,6 @@
 package mipics;
-
+/*This is a third party plug-in from the book Swing Hacks by Joshua Marinacci & Chris Adamson, 2005.
+The code allows me to call it and insert a preview picture when users go to open a file*/ 
 import javax.swing.*;
 import javax.swing.filechooser.*;
 import java.awt.event.*;

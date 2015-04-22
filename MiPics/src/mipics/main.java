@@ -7,7 +7,7 @@ package mipics;
 
 /**
  *
- * @author Andrew
+ * @author 016171682
  */
 public class main {
     public static void main (String [] args){

@@ -7,23 +7,16 @@ package mipics;
 
 /**
  *
- * @author Andrew
+ * @author 016171682
  */
 public class Tag implements java.io.Serializable{
     
-	private static final long serialVersionUID = 3223704828835351425L;
-	private String tagName;
-        private String fileLocation;
-        private String fileName;
+	
+private String tagName;
+private String fileLocation;
+private String fileName;
 
 	
-	
-	/**
-	 * Creates a new tag given a type of tag and the value for it.
-	 * @param type - a type of a tag, such as Location, People, etc.
-	 * @param value - the value of the tag, such as New York, or John
-     * @param name
-	 */
 	public Tag(String tagName, String fileLocation, String fileName ) {
 		this.tagName = tagName;
 		this.fileLocation = fileLocation;
@@ -33,7 +26,7 @@ public class Tag implements java.io.Serializable{
 	
 	/* get methods */
 	/**
-	 * returns the Tag type.
+	 * returns the Tag name.
 	 * 
      * @return 
 	 */
@@ -47,14 +40,18 @@ public class Tag implements java.io.Serializable{
 	
 	
 	/**
-	 * returns the Tag value.
+	 * returns the File Location value.
 	 * 
-     * @return 
+        * @return 
 	 */
 	public String getFileLocation(){
 		return fileLocation;
 	}
-	
+	/**
+	 * returns the File name value.
+	 * 
+        * @return 
+	 */
         // returns tag Name
         public String getFileName(){
                 return fileName;    
@@ -71,7 +68,7 @@ public class Tag implements java.io.Serializable{
 	
 	
 	/**
-	 * set the tag's value to the given string s.
+	 * set the file location value to the given string s.
      * @param s
 	 */
 	
@@ -79,6 +76,10 @@ public class Tag implements java.io.Serializable{
 		this.fileLocation = s;
 	}
         
+	/**
+	 * set the file name value to the given string s.
+     * @param n
+	 */
         public void setFileName(String n){
                 this.fileName = n;
         }
