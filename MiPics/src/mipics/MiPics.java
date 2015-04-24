@@ -162,7 +162,7 @@ public class MiPics extends JFrame implements TreeSelectionListener {
        
       //Set up the view menu
         menuView = new JMenu("View");
-        menuEdit.setMnemonic(KeyEvent.VK_V);
+        menuView.setMnemonic(KeyEvent.VK_V);
         menuBar.add(menuView);         
       //Add view thumbnails item   
         menuViewShowIcons = new JMenuItem("Show Album Thumbnails");
@@ -320,15 +320,23 @@ public class MiPics extends JFrame implements TreeSelectionListener {
   //Listens for changes in slider selection value
     class SliderListener implements ChangeListener {
     public void stateChanged(ChangeEvent e) {       
+        TreePath check = null;
+        check = tree.getSelectionPath();
         DefaultMutableTreeNode node = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
+           
         // make sure picture is selected
-        if (node.isLeaf()){      
+        if (check == null){      
+           fileString = fileString; 
+        }    
+        else{ if (node.isLeaf()){
             Object nodeInfo = node.getUserObject();
             Tag f = (Tag) node.getUserObject();
-            fileString = f.getFileLocation();
-        }    
-        //Get slider selection   
+            fileString = f.getFileLocation(); }
+            }
+    
+      //Get slider selection   
         JSlider source = (JSlider)e.getSource();
+    
         //make sure photo is open first
         if (fileString == null){
          JOptionPane.showMessageDialog(MiPics.this, "Please open a photo to re-size first","Error", JOptionPane.INFORMATION_MESSAGE);
@@ -475,7 +483,7 @@ public class MiPics extends JFrame implements TreeSelectionListener {
         else{
         //remove any old picture in panel
         panel3.removeAll();
-        JLabel panLab = new JLabel("Album Thumbnails");
+        JLabel panLab = new JLabel("Album Thumbnails    ");
         panLab.setForeground(Color.white);
         panel3.add(panLab);    
         selectedNode.getChildCount();
